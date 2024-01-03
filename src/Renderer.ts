@@ -1,5 +1,6 @@
 export class Renderer {
     height = 40
+    innerHeight = 30
 
     notchHeight = 20
     notchArc = 10
@@ -51,6 +52,25 @@ export class Renderer {
             h ${-width}
             ${this.notch.toLeft}
             z
+        `
+    }
+
+    drawInnerBlock(width: number) {
+        const height = this.innerHeight
+        return `
+            M 0 0
+            a ${height / 2} ${height / 2}
+              0 0 1
+              ${height / 2} ${-height / 2}
+            h ${width}
+            a ${height / 2} ${height / 2}
+              0 0 1
+              0 ${height}
+            h ${-width}
+            
+            a ${height / 2} ${height / 2}
+              0 0 1
+              ${-height / 2} ${-height / 2}
         `
     }
 }
