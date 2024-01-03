@@ -7,17 +7,22 @@ export class Block {
     dom
     constructor(text: string) {
         this.text = $("text", {
-            x: 0,
-            y: 20,
+            x: renderer.notch.width,
+            y: renderer.height / 2,
+            "dominant-baseline": "central",
         }) as SVGTextElement
         this.text.append(text)
-        console.log(this.text.getBoundingClientRect())
         this.baseBlock = $("path", {
-            d: renderer.drawBasic(this.text.getBBox().width),
-            fill: "#ffccdc"
+            fill: "#ffccdc",
         })
         this.dom = $("g")
         this.dom.appendChild(this.baseBlock)
         this.dom.appendChild(this.text)
+    }
+    render() {
+        this.baseBlock.setAttribute(
+            "d",
+            renderer.drawBasic(this.text.getBBox().width),
+        )
     }
 }

@@ -7,6 +7,9 @@ export class Renderer {
         const height = this.notchHeight
         const arc = this.notchArc
         return {
+            height,
+            width: height + arc,
+            arc,
             left: `
                 l ${height} ${height}
                 v -${height - arc}
