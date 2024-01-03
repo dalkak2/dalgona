@@ -2,54 +2,14 @@ import { renderer } from "./Renderer.ts"
 import { $ } from "./util.ts"
 
 export abstract class Item {
-    abstract dom: SVGElement
+    abstract dom: SVGGraphicsElement
     abstract set x(x: number)
     abstract set y(y: number)
     abstract get width(): number
     render() {}
 }
 
-export class Text extends Item {
-    dom
-    constructor(text: string) {
-        super()
-        this.dom = $("text", {
-            style: `
-                dominant-baseline: central;
-                user-select: none;
-            `,
-        })
-        this.dom.append(text)
-    }
-    set x(x: number) {
-        this.dom.setAttribute("x", String(x))
-    }
-    set y(y: number) {
-        this.dom.setAttribute("y", String(y))
-    }
-    get width() {
-        return this.dom.getBBox().width
-    }
-}
-export class InputBlock extends Item {
-    dom
-    baseBlock
-    constructor() {
-        super()
-        this.dom = $("g", {
-            transform: "translate(0 0)",
-        })
-        this.baseBlock = $("path", {
-            fill: "yellow",
-        })
-        this.dom.appendChild(this.baseBlock)
-    }
-    render() {
-        this.baseBlock.setAttribute(
-            "d",
-            renderer.drawInnerBlock(20),
-        )
-    }
+export abstract class SVGItem extends Item {
     get x() {
         return this.dom.transform.baseVal.getItem(0).matrix.e
     }
@@ -73,6 +33,42 @@ export class InputBlock extends Item {
     }
 }
 
+export class Text extends SVGItem {
+    dom
+    constructor(text: string) {
+        super()
+        this.dom = $("text", {
+            style: `
+                dominant-baseline: central;
+                user-select: none;
+            `,
+            transform: "translate(0 0)",
+        })
+        this.dom.append(text)
+    }
+}
+
+export class InputBlock extends SVGItem {
+    dom
+    baseBlock
+    constructor() {
+        super()
+        this.dom = $("g", {
+            transform: "translate(0 0)",
+        })
+        this.baseBlock = $("path", {
+            fill: "#ffef98",
+        })
+        this.dom.appendChild(this.baseBlock)
+    }
+    render() {
+        this.baseBlock.setAttribute(
+            "d",
+            renderer.drawInnerBlock(20),
+        )
+    }
+}
+
 export class Block {
     items
     baseBlock
@@ -87,7 +83,7 @@ export class Block {
         items.forEach(item => this.dom.appendChild(item.dom))
     }
     render() {
-        let accX = renderer.notch.width
+        let accX = renderer.notch.width - 5
         this.items.forEach(item => {
             item.render()
             item.x = accX
