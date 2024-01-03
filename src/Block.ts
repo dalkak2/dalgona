@@ -1,12 +1,14 @@
 import { renderer } from "./Renderer.ts"
 import { $ } from "./util.ts"
-import { Item } from "./inline/Item.ts"
+import { InputBlock, Text } from "./inline/mod.ts"
+
+type InlineItem = InputBlock | Text
 
 export class Block {
     items
     baseBlock
     dom
-    constructor(items: Item[]) {
+    constructor(items: InlineItem[]) {
         this.items = items
         this.baseBlock = $("path", {
             fill: "#ffccdc",

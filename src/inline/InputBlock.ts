@@ -1,9 +1,9 @@
-import { SVGItem } from "./Item.ts"
+import { SVGElem } from "../SVGElem.ts"
 import { $ } from "../util.ts"
 import { renderer } from "../Renderer.ts"
 import { Text } from "./Text.ts"
 
-export class InputBlock extends SVGItem {
+export class InputBlock extends SVGElem {
     dom
     text
     baseBlock

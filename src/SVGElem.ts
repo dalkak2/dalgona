@@ -1,12 +1,6 @@
-export abstract class Item {
+export abstract class SVGElem {
     abstract dom: SVGGraphicsElement
-    abstract set x(x: number)
-    abstract set y(y: number)
-    abstract get width(): number
     render() {}
-}
-
-export abstract class SVGItem extends Item {
     get x() {
         return this.dom.transform.baseVal.getItem(0).matrix.e
     }
