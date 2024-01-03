@@ -13,7 +13,10 @@ const $ =
         return elem
     }
 
-const app = $("svg")
+const app = $("svg", {
+    width: "100%",
+    height: "100%",
+})
 const p = $("path", {
     d: renderer.drawBasic(100),
     fill: "#ffccdc",
