@@ -13,7 +13,7 @@ export class Block {
                 dominant-baseline: central;
                 user-select: none;
             `
-        }) as SVGTextElement
+        })
         this.text.append(text)
         this.baseBlock = $("path", {
             fill: "#ffccdc",
