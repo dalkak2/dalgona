@@ -2,9 +2,8 @@ import { SVGElem } from "./SVGElem.ts"
 
 // TODO: to decorator
 export const makeDraggable = (target: SVGElem) => {
-    const on = target.dom.addEventListener
-    const off = target.dom.removeEventListener
-    on("pointerdown", e => {
+    target.dom.addEventListener("pointerdown", e => {
+        e.stopPropagation()
         const start = {
             x: target.x,
             y: target.y,
@@ -30,9 +29,9 @@ export const makeDraggable = (target: SVGElem) => {
                 target.y = start.y
             }
         }
-        on("pointermove", onMove)
-        on("pointerup", e => {
-            off("pointermove", onMove)
+        document.body.addEventListener("pointermove", onMove)
+        target.dom.addEventListener("pointerup", e => {
+            document.body.removeEventListener("pointermove", onMove)
         }, { once: true })
     })
 }

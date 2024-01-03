@@ -2,6 +2,7 @@ import { SVGElem } from "../SVGElem.ts"
 import { $ } from "../util.ts"
 import { renderer } from "../Renderer.ts"
 import { Text } from "./Text.ts"
+import { makeDraggable } from "../makeDraggable.ts"
 
 export class InputBlock extends SVGElem {
     dom
@@ -21,6 +22,7 @@ export class InputBlock extends SVGElem {
         })
         this.dom.appendChild(this.baseBlock)
         this.dom.appendChild(this.text.dom)
+        makeDraggable(this)
     }
     render() {
         this.baseBlock.setAttribute(
