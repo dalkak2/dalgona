@@ -40,6 +40,28 @@ export class Renderer {
             z
         `
     }
+
+    drawLoop(width: number) {
+        return `
+            M 0 0
+            ${this.notch.left}
+            h ${width}
+            a ${this.height / 2} ${this.height / 2}
+              0 0 1
+              0 ${this.height}
+            h ${-width + this.notch.width - this.notch.arc}
+            ${this.notch.right}
+            v 100
+            ${this.notch.left}
+            h ${width - this.notch.width + this.notch.arc}
+            a ${this.height / 2} ${this.height / 2}
+                0 0 1
+                0 ${this.height}
+            h ${-width}
+            ${this.notch.right}
+            z
+        `
+    }
 }
 
 export const renderer = new Renderer()

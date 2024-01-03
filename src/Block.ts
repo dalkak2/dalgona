@@ -25,7 +25,7 @@ export class Block {
     render() {
         this.baseBlock.setAttribute(
             "d",
-            renderer.drawBasic(this.text.getBBox().width),
+            renderer.drawLoop(this.text.getBBox().width),
         )
     }
 }
