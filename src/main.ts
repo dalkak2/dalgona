@@ -8,6 +8,6 @@ const app = $("svg", {
 })
 document.body.appendChild(app)
 
-const block = new Block("안녕, 세계")
+const block = new Block("10번 반복하기")
 app.appendChild(block.dom)
 block.render()

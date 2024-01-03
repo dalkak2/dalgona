@@ -10,14 +10,14 @@ export class Renderer {
             height,
             width: height + arc,
             arc,
-            left: `
+            toRight: `
                 l ${height} ${height}
                 v -${height - arc}
                 a ${arc} ${arc}
                 0 0 1
                 ${arc} -${arc}
             `,
-            right: `
+            toLeft: `
                 a ${arc} ${arc}
                   0 0 0
                   -${arc} ${arc}
@@ -30,35 +30,36 @@ export class Renderer {
     drawBasic(width: number) {
         return `
             M 0 0
-            ${this.notch.left}
+            ${this.notch.toRight}
             h ${width}
             a ${this.height / 2} ${this.height / 2}
               0 0 1
               0 ${this.height}
             h ${-width}
-            ${this.notch.right}
+            ${this.notch.toLeft}
             z
         `
     }
 
     drawLoop(width: number) {
+        const innerWidth = width - this.notch.width + this.notch.arc
         return `
             M 0 0
-            ${this.notch.left}
+            ${this.notch.toRight}
             h ${width}
             a ${this.height / 2} ${this.height / 2}
               0 0 1
               0 ${this.height}
-            h ${-width + this.notch.width - this.notch.arc}
-            ${this.notch.right}
-            v 100
-            ${this.notch.left}
-            h ${width - this.notch.width + this.notch.arc}
+            h ${-innerWidth}
+            ${this.notch.toLeft}
+            v ${this.height}
+            ${this.notch.toRight}
+            h ${innerWidth}
             a ${this.height / 2} ${this.height / 2}
                 0 0 1
                 0 ${this.height}
             h ${-width}
-            ${this.notch.right}
+            ${this.notch.toLeft}
             z
         `
     }
