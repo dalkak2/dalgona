@@ -6,6 +6,7 @@ export abstract class Item {
     abstract set x(x: number)
     abstract set y(y: number)
     abstract get width(): number
+    render() {}
 }
 
 export class Text extends Item {
@@ -32,6 +33,47 @@ export class Text extends Item {
         return this.dom.getBBox().width
     }
 }
+export class InputBlock extends Item {
+    dom
+    baseBlock
+    constructor() {
+        super()
+        this.dom = $("g", {
+            transform: "translate(0 0)",
+        })
+        this.baseBlock = $("path", {
+            fill: "yellow",
+        })
+        this.dom.appendChild(this.baseBlock)
+    }
+    render() {
+        this.baseBlock.setAttribute(
+            "d",
+            renderer.drawInnerBlock(20),
+        )
+    }
+    get x() {
+        return this.dom.transform.baseVal.getItem(0).matrix.e
+    }
+    set x(x: number) {
+        this.dom.transform.baseVal.getItem(0).setTranslate(
+            x,
+            this.y,
+        )
+    }
+    get y() {
+        return this.dom.transform.baseVal.getItem(0).matrix.f
+    }
+    set y(y: number) {
+        this.dom.transform.baseVal.getItem(0).setTranslate(
+            this.x,
+            y,
+        )
+    }
+    get width() {
+        return this.dom.getBBox().width
+    }
+}
 
 export class Block {
     items
@@ -49,6 +91,7 @@ export class Block {
     render() {
         let accX = renderer.notch.width
         this.items.forEach(item => {
+            item.render()
             item.x = accX
             accX += item.width
             item.y = renderer.height / 2
