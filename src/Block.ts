@@ -1,12 +1,18 @@
 import { renderer } from "./Renderer.ts"
 import { $ } from "./util.ts"
 
-export class Block {
-    text
-    baseBlock
+export abstract class Item {
+    abstract dom: SVGElement
+    abstract set x(x: number)
+    abstract set y(y: number)
+    abstract get width(): number
+}
+
+export class Text extends Item {
     dom
     constructor(text: string) {
-        this.text = $("text", {
+        super()
+        this.dom = $("text", {
             x: renderer.notch.width,
             y: renderer.height / 2,
             style: `
@@ -14,19 +20,43 @@ export class Block {
                 user-select: none;
             `
         })
-        this.text.append(text)
+        this.dom.append(text)
+    }
+    set x(x: number) {
+        this.dom.setAttribute("x", String(x))
+    }
+    set y(y: number) {
+        this.dom.setAttribute("y", String(y))
+    }
+    get width() {
+        return this.dom.getBBox().width
+    }
+}
+
+export class Block {
+    items
+    baseBlock
+    dom
+    constructor(items: Item[]) {
+        this.items = items
         this.baseBlock = $("path", {
             fill: "#ffccdc",
         })
         this.dom = $("g")
         this.dom.appendChild(this.baseBlock)
-        this.dom.appendChild(this.text)
+        items.forEach(item => this.dom.appendChild(item.dom))
     }
     render() {
+        let accX = renderer.notch.width
+        this.items.forEach(item => {
+            item.x = accX
+            accX += item.width
+            item.y = renderer.height / 2
+        })
         this.baseBlock.setAttribute(
             "d",
             renderer.drawBlock(
-                this.text.getBBox().width,
+                accX - renderer.notch.width,
                 [
                     40,
                     50,
