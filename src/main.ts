@@ -9,9 +9,8 @@ const app = $("svg", {
 document.body.appendChild(app)
 
 const block = new Block([
-    new Text("(10)번 반복하기"),
     new InputBlock(),
-    new Text("(10)번 반복하기"),
+    new Text("번 반복하기"),
 ])
 app.appendChild(block.dom)
 block.render()

@@ -14,12 +14,10 @@ export class Text extends Item {
     constructor(text: string) {
         super()
         this.dom = $("text", {
-            x: renderer.notch.width,
-            y: renderer.height / 2,
             style: `
                 dominant-baseline: central;
                 user-select: none;
-            `
+            `,
         })
         this.dom.append(text)
     }
@@ -93,13 +91,13 @@ export class Block {
         this.items.forEach(item => {
             item.render()
             item.x = accX
-            accX += item.width
+            accX += item.width + 5
             item.y = renderer.height / 2
         })
         this.baseBlock.setAttribute(
             "d",
             renderer.drawBlock(
-                accX - renderer.notch.width,
+                accX - renderer.notch.width - 10,
                 [
                     40,
                     50,
