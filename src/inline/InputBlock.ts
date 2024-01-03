@@ -1,24 +1,31 @@
 import { SVGItem } from "./Item.ts"
 import { $ } from "../util.ts"
 import { renderer } from "../Renderer.ts"
+import { Text } from "./Text.ts"
 
 export class InputBlock extends SVGItem {
     dom
+    text
     baseBlock
-    constructor() {
+    constructor(text = "10") {
         super()
         this.dom = $("g", {
             transform: "translate(0 0)",
         })
+
+        this.text = new Text(text)
+        this.text.x = renderer.innerHeight / 2
+
         this.baseBlock = $("path", {
             fill: "#ffef98",
         })
         this.dom.appendChild(this.baseBlock)
+        this.dom.appendChild(this.text.dom)
     }
     render() {
         this.baseBlock.setAttribute(
             "d",
-            renderer.drawInnerBlock(20),
+            renderer.drawInnerBlock(this.text.width),
         )
     }
 }
