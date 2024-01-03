@@ -96,7 +96,6 @@ export class Block {
                 accX - renderer.notch.width - 10,
                 [
                     40,
-                    50,
                 ]
             ),
         )
