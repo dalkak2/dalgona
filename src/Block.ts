@@ -9,7 +9,10 @@ export class Block {
         this.text = $("text", {
             x: renderer.notch.width,
             y: renderer.height / 2,
-            "dominant-baseline": "central",
+            style: `
+                dominant-baseline: central;
+                user-select: none;
+            `
         }) as SVGTextElement
         this.text.append(text)
         this.baseBlock = $("path", {
