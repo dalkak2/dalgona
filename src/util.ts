@@ -21,3 +21,19 @@ export const $ =
         })
         return elem as FromTagName<T>
     }
+
+export const split =
+    <A, S extends A>
+    (judge: (a: A) => a is S) =>
+    (as: A[]) =>
+    {
+        const result: Exclude<A, S>[][] = [[]]
+        as.forEach(a => {
+            if (judge(a)) {
+                result.push([])
+            } else {
+                result[result.length - 1].push(a as Exclude<A, S>)
+            }
+        })
+        return result
+    }

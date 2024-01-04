@@ -9,6 +9,7 @@ app.addBlocks(
     new Block([
         new InputBlock(),
         new Text("번 반복하기"),
+        "statements",
     ]),
     new Block([
         new InputBlock(),

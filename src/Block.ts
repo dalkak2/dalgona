@@ -1,18 +1,21 @@
 import { renderer } from "./Renderer.ts"
-import { $ } from "./util.ts"
+import { $, split } from "./util.ts"
 import { InputBlock, Text } from "./inline/mod.ts"
 import { makeDraggable } from "./makeDraggable.ts"
 import { SVGElem } from "./SVGElem.ts"
 
 type InlineItem = InputBlock | Text
+type Item = InlineItem | "statements"
 
 export class Block extends SVGElem {
-    items
+    lines
     baseBlock
     dom
-    constructor(items: InlineItem[]) {
+    constructor(items: Item[]) {
         super()
-        this.items = items
+        this.lines = split(
+            (x: Item): x is "statements" => x == "statements"
+        )(items)
         this.baseBlock = $("path", {
             fill: "#ffccdc",
             stroke: "white",
@@ -22,24 +25,26 @@ export class Block extends SVGElem {
             transform: "translate(0 0)",
         })
         this.dom.appendChild(this.baseBlock)
-        this.append(...items)
+        this.append(...this.lines.flat())
         makeDraggable(this)
     }
     render() {
         let accX = renderer.notch.width - 5
-        this.items.forEach(item => {
-            item.render()
-            item.x = accX
-            accX += item.width + 5
-            item.y = renderer.height / 2
+        let accY = renderer.height / 2
+        this.lines.forEach(items => {
+            items.forEach(item => {
+                item.render()
+                item.x = accX
+                accX += item.width + 5
+                item.y = accY
+            })
+            accY += 40 + renderer.height
         })
         this.baseBlock.setAttribute(
             "d",
             renderer.drawBlock(
                 accX - renderer.notch.width - 10,
-                [
-                    40,
-                ]
+                this.lines.toSpliced(0, 1).map(() => 40),
             ),
         )
     }
