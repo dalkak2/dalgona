@@ -1,6 +1,6 @@
 export abstract class SVGElem {
     abstract dom: SVGGraphicsElement
-    parent?: SVGElem | null
+    parent?: SVGElem
     children: SVGElem[] = []
     append(...children: SVGElem[]) {
         children.forEach(child => {
@@ -11,6 +11,7 @@ export abstract class SVGElem {
     }
     render() {}
     get x() {
+        if (this.dom.transform.baseVal.length == 0) return 0
         return this.dom.transform.baseVal.getItem(0).matrix.e
     }
     set x(x: number) {
@@ -20,6 +21,7 @@ export abstract class SVGElem {
         )
     }
     get y() {
+        if (this.dom.transform.baseVal.length == 0) return 0
         return this.dom.transform.baseVal.getItem(0).matrix.f
     }
     set y(y: number) {
@@ -40,14 +42,13 @@ export abstract class SVGElem {
     get absY(): number {
         return this.y + (this.parent?.absY || 0)
     }
-    get root() {
-        return this.dom.closest("svg")
+    get root(): SVGElem {
+        return this.parent?.root || this
     }
     moveToTop() {
         if (!this.root) throw new Error("")
         this.x = this.absX
         this.y = this.absY
-        this.root.append(this.dom)
-        this.parent = null
+        this.root.append(this)
     }
 }
