@@ -1,7 +1,7 @@
 import { renderer } from "./Renderer.ts"
 import { $ } from "./util.ts"
 import { InputBlock, Text } from "./inline/mod.ts"
-import { makeDraggable } from "./makeDraggable.ts"
+import { makeDraggable, snapTo } from "./makeDraggable.ts"
 import { SVGElem } from "./SVGElem.ts"
 
 type InlineItem = InputBlock | Text
@@ -23,7 +23,10 @@ export class Block extends SVGElem {
         })
         this.dom.appendChild(this.baseBlock)
         this.append(...items)
-        makeDraggable(this)
+        makeDraggable(snapTo({
+            x: this.x,
+            y: this.y,
+        }))(this)
     }
     render() {
         let accX = renderer.notch.width - 5
