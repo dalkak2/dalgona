@@ -4,6 +4,7 @@ import { SVGElem } from "./SVGElem.ts"
 export const makeDraggable = (target: SVGElem) => {
     target.dom.addEventListener("pointerdown", e => {
         e.stopPropagation()
+        target.moveToTop()
         const start = {
             x: target.x,
             y: target.y,

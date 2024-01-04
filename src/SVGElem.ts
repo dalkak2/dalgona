@@ -1,3 +1,5 @@
+import type { App } from "./App.ts"
+
 export abstract class SVGElem {
     abstract dom: SVGGraphicsElement
     render() {}
@@ -24,5 +26,13 @@ export abstract class SVGElem {
     }
     get height() {
         return this.dom.getBBox().height
+    }
+    get root() {
+        return this.dom.closest("svg")
+    }
+    moveToTop() {
+        this.root?.append?.(
+            this.dom,
+        )
     }
 }
