@@ -1,6 +1,5 @@
 import { $ } from "./util.ts"
 import type { Block } from "./Block.ts"
-import { renderer } from "./Renderer.ts"
 
 export class App {
     dom
@@ -19,7 +18,7 @@ export class App {
         blocks.forEach(block => {
             block.y = accY
             this.addBlock(block)
-            accY += block.height - renderer.notch.height
+            accY += block.bodyHeight
         })
     }
 }

@@ -43,4 +43,10 @@ export class Block extends SVGElem {
             ),
         )
     }
+    /**
+     * Block height without notch
+     */
+    get bodyHeight() {
+        return this.height - renderer.notch.height
+    }
 }
