@@ -1,6 +1,6 @@
 export abstract class SVGElem {
     abstract dom: SVGGraphicsElement
-    parent?: SVGElem
+    parent?: SVGElem | null
     children: SVGElem[] = []
     append(...children: SVGElem[]) {
         children.forEach(child => {
@@ -48,5 +48,6 @@ export abstract class SVGElem {
         this.x = this.absX
         this.y = this.absY
         this.root.append(this.dom)
+        this.parent = null
     }
 }
