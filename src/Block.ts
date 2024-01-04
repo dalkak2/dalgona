@@ -15,6 +15,8 @@ export class Block extends SVGElem {
         this.items = items
         this.baseBlock = $("path", {
             fill: "#ffccdc",
+            stroke: "white",
+            "stroke-width": 2,
         })
         this.dom = $("g", {
             transform: "translate(0 0)",

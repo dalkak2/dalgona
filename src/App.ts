@@ -18,7 +18,7 @@ export class App {
         blocks.forEach(block => {
             block.y = accY
             this.addBlock(block)
-            accY += block.height
+            accY += block.height - 20
         })
     }
 }
