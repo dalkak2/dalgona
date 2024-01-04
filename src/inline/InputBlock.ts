@@ -21,7 +21,7 @@ export class InputBlock extends SVGElem {
             fill: "#ffef98",
         })
         this.dom.appendChild(this.baseBlock)
-        this.dom.appendChild(this.text.dom)
+        this.append(this.text)
         makeDraggable(this)
     }
     render() {

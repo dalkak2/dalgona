@@ -22,7 +22,7 @@ export class Block extends SVGElem {
             transform: "translate(0 0)",
         })
         this.dom.appendChild(this.baseBlock)
-        items.forEach(item => this.dom.appendChild(item.dom))
+        this.append(...items)
         makeDraggable(this)
     }
     render() {

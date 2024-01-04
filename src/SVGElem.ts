@@ -1,7 +1,14 @@
-import type { App } from "./App.ts"
-
 export abstract class SVGElem {
     abstract dom: SVGGraphicsElement
+    parent?: SVGElem
+    children: SVGElem[] = []
+    append(...children: SVGElem[]) {
+        children.forEach(child => {
+            child.parent = this
+            this.children.push(child)
+            this.dom.append(child.dom)
+        })
+    }
     render() {}
     get x() {
         return this.dom.transform.baseVal.getItem(0).matrix.e
@@ -27,11 +34,19 @@ export abstract class SVGElem {
     get height() {
         return this.dom.getBBox().height
     }
+    get absX(): number {
+        return this.x + (this.parent?.absX || 0)
+    }
+    get absY(): number {
+        return this.y + (this.parent?.absY || 0)
+    }
     get root() {
         return this.dom.closest("svg")
     }
     moveToTop() {
         if (!this.root) throw new Error("")
+        this.x = this.absX
+        this.y = this.absY
         this.root.append(this.dom)
     }
 }
