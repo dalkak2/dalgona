@@ -31,8 +31,7 @@ export abstract class SVGElem {
         return this.dom.closest("svg")
     }
     moveToTop() {
-        this.root?.append?.(
-            this.dom,
-        )
+        if (!this.root) throw new Error("")
+        this.root.append(this.dom)
     }
 }
