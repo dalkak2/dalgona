@@ -1,17 +1,17 @@
-import { $ } from "./util.ts"
-
 import { Text, InputBlock } from "./inline/mod.ts"
 import { Block } from "./Block.ts"
+import { App } from "./App.ts"
 
-const app = $("svg", {
-    width: "100%",
-    height: "100%",
-})
-document.body.appendChild(app)
+const app = new App()
+document.body.appendChild(app.dom)
 
-const block = new Block([
-    new InputBlock(),
-    new Text("번 반복하기"),
-])
-app.appendChild(block.dom)
-block.render()
+app.addBlocks(
+    new Block([
+        new InputBlock(),
+        new Text("번 반복하기"),
+    ]),
+    new Block([
+        new InputBlock(),
+        new Text("만큼 움직이기"),
+    ]),
+)
