@@ -22,4 +22,7 @@ export abstract class SVGElem {
     get width() {
         return this.dom.getBBox().width
     }
+    get height() {
+        return this.dom.getBBox().height
+    }
 }

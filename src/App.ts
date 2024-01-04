@@ -9,10 +9,16 @@ export class App {
             height: "100%",
         })
     }
+    addBlock(block: Block) {
+        this.dom.appendChild(block.dom)
+        block.render()
+    }
     addBlocks(...blocks: Block[]) {
+        let accY = 0
         blocks.forEach(block => {
-            this.dom.appendChild(block.dom)
-            block.render()
+            block.y = accY
+            this.addBlock(block)
+            accY += block.height
         })
     }
 }
