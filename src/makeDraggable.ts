@@ -1,14 +1,13 @@
 import { SVGElem } from "./SVGElem.ts"
+import { snapPoints } from "./addSnap.ts"
+import { distance } from "./util.ts"
 
 // TODO: to decorator
 export const makeDraggable = (target: SVGElem) => {
     target.dom.addEventListener("pointerdown", e => {
         e.stopPropagation()
         target.moveToTop()
-        const start = {
-            x: target.x,
-            y: target.y,
-        }
+
         const offset = {
             x: e.clientX - target.x,
             y: e.clientY - target.y,
@@ -19,15 +18,16 @@ export const makeDraggable = (target: SVGElem) => {
                 y: e.clientY - offset.y,
             }
 
-            const dx = now.x - start.x
-            const dy = now.y - start.y
-            const d = Math.sqrt(dx**2 + dy**2)
-            if (d > 20) {
+            const snapTarget = snapPoints.find(snapTarget => {
+                const d = distance(snapTarget, now)
+                return d < 20
+            })
+            if (snapTarget) {
+                target.x = snapTarget.x
+                target.y = snapTarget.y
+            } else {
                 target.x = now.x
                 target.y = now.y
-            } else {
-                target.x = start.x
-                target.y = start.y
             }
         }
         document.body.addEventListener("pointermove", onMove)

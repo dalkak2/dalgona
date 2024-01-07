@@ -37,3 +37,11 @@ export const split =
         })
         return result
     }
+
+export type Coord = {x: number, y: number}
+
+export const distance = (a: Coord, b: Coord) => {
+    const dx = a.x - b.x
+    const dy = a.y - b.y
+    return Math.sqrt(dx**2 + dy**2)
+}
