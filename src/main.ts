@@ -1,4 +1,4 @@
-import { Text, InputBlock } from "./inline/mod.ts"
+import { Text, Input } from "./inline/mod.ts"
 import { Block } from "./Block.ts"
 import { App } from "./App.ts"
 
@@ -7,12 +7,12 @@ document.body.appendChild(app.dom)
 
 app.addBlocks(
     new Block([
-        new InputBlock(),
+        new Input(),
         new Text("번 반복하기"),
         "statements",
     ]),
     new Block([
-        new InputBlock(),
+        new Input(),
         new Text("만큼 움직이기"),
     ]),
 )

@@ -1,10 +1,10 @@
 import { renderer } from "./Renderer.ts"
 import { $, split } from "./util.ts"
-import { InputBlock, Text } from "./inline/mod.ts"
+import { Input, Text } from "./inline/mod.ts"
 import { makeDraggable } from "./makeDraggable.ts"
 import { SVGElem } from "./SVGElem.ts"
 
-type InlineItem = InputBlock | Text
+type InlineItem = Input | Text
 type Item = InlineItem | "statements"
 
 export class Block extends SVGElem {
