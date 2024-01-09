@@ -35,8 +35,10 @@ export class Block extends SVGElem {
                 return self.x
             },
             get y() {
-                return self.y - 40
+                return self.y
             },
+            accept: "bottom",
+            elem: this,
         })
     }
     render() {

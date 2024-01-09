@@ -1,7 +1,13 @@
 import type { Coord } from "./util.ts"
+import type { SVGElem } from "./SVGElem.ts"
 
-export const snapPoints: Coord[] = []
+type SnapInfo = Coord & {
+    accept: string
+    elem: SVGElem
+}
 
-export const addSnap = (target: Coord) => {
+export const snapPoints: SnapInfo[] = []
+
+export const addSnap = (target: SnapInfo) => {
     snapPoints.push(target)
 }

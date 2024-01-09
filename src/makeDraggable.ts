@@ -20,7 +20,7 @@ export const makeDraggable = (target: SVGElem) => {
 
             const snapTarget = snapPoints.find(snapTarget => {
                 const d = distance(snapTarget, now)
-                return d < 20
+                return d < 20 && snapTarget.elem != target
             })
             if (snapTarget) {
                 target.x = snapTarget.x
