@@ -4,17 +4,21 @@ import { Input, Text } from "./inline/mod.ts"
 import { Draggable } from "./Draggable.ts"
 
 type InlineItem = Input | Text
-type Item = InlineItem | "statements"
+type Item = InlineItem | "statement"
+
+const isStatement = (x: Item): x is "statement" => x == "statement"
+
+const statementOffsetX = renderer.notch.height
 
 export class Block extends Draggable {
     lines
+    statements
     baseBlock
     dom
     constructor(items: Item[]) {
         super()
-        this.lines = split(
-            (x: Item): x is "statements" => x == "statements"
-        )(items)
+        this.lines = split(isStatement)(items)
+        this.statements = items.filter(isStatement)
         this.baseBlock = $("path", {
             fill: "#ffccdc",
             stroke: "white",
@@ -27,18 +31,33 @@ export class Block extends Draggable {
         this.append(...this.lines.flat())
     }
     get magnets() {
+        let accY = 0
         return [
-            {
-                x: 0,
-                y: this.bodyHeight,
-                type: "bottom",
-                accept: "top",
-            },
             {
                 x: 0,
                 y: 0,
                 type: "top",
                 accept: "bottom",
+            },
+            ...this.statements.map(statement => [
+                {
+                    x: statementOffsetX,
+                    y: accY += renderer.height,
+                    type: "bottom",
+                    accept: "top",
+                },
+                {
+                    x: statementOffsetX,
+                    y: accY += 40,
+                    type: "top",
+                    accept: "bottom",
+                },
+            ]).flat(),
+            {
+                x: 0,
+                y: this.bodyHeight,
+                type: "bottom",
+                accept: "top",
             },
         ]
     }
@@ -59,7 +78,7 @@ export class Block extends Draggable {
             "d",
             renderer.drawBlock(
                 accX - renderer.notch.width - 10,
-                this.lines.toSpliced(0, 1).map(() => 40),
+                this.statements.map(() => 40),
             ),
         )
     }
