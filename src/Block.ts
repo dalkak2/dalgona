@@ -25,11 +25,12 @@ export class Block extends Draggable {
         })
         this.dom.appendChild(this.baseBlock)
         this.append(...this.lines.flat())
-
-        this.addMagnets(
+    }
+    get magnets() {
+        return [
             {
                 x: 0,
-                y: () => this.bodyHeight,
+                y: this.bodyHeight,
                 type: "bottom",
                 accept: "top",
             },
@@ -39,7 +40,7 @@ export class Block extends Draggable {
                 type: "top",
                 accept: "bottom",
             },
-        )
+        ]
     }
     render() {
         super.render()
