@@ -52,3 +52,10 @@ export const add = (a: Coord, b: Coord) => {
         y: a.y + b.y,
     }
 }
+
+export const sub = (a: Coord, b: Coord) => {
+    return {
+        x: a.x - b.x,
+        y: a.y - b.y,
+    }
+}

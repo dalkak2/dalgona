@@ -26,12 +26,23 @@ export class Block extends Draggable {
         this.dom.appendChild(this.baseBlock)
         this.append(...this.lines.flat())
 
-        this.magnets.push({
-            x: 0,
-            y: 0,
-            type: "a",
-            accept: "a",
-        })
+        const self = this
+        this.magnets.push(
+            {
+                x: 0,
+                get y() {
+                    return self.bodyHeight
+                },
+                type: "bottom",
+                accept: "top",
+            },
+            {
+                x: 0,
+                y: 0,
+                type: "top",
+                accept: "bottom",
+            },
+        )
     }
     render() {
         super.render()

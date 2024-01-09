@@ -3,6 +3,7 @@ import { distance } from "./util.ts"
 import {
     Coord,
     add,
+    sub,
 } from "./util.ts"
 
 type Magnet = Coord & {
@@ -36,8 +37,9 @@ export abstract class Draggable extends SVGElem {
                     x: e.clientX - offset.x,
                     y: e.clientY - offset.y,
                 }
-    
-                const snapTarget = this.root.children.find(target => {
+
+                let targetPos = now
+                this.root.children.find(target => {
                     if (
                         target instanceof Draggable
                         && target != this
@@ -48,19 +50,19 @@ export abstract class Draggable extends SVGElem {
                                     add(target, magnet1),
                                     add(now, magnet2),
                                 )
-                                return d < 20
+                                if (d < 20 && magnet1.accept == magnet2.type) {
+                                    targetPos = sub(
+                                        add(target, magnet1),
+                                        magnet2
+                                    )
+                                    return true
+                                }
                             })
                         })
                     }
                 })
-                console.log(snapTarget)
-                if (snapTarget) {
-                    this.x = snapTarget.x
-                    this.y = snapTarget.y
-                } else {
-                    this.x = now.x
-                    this.y = now.y
-                }
+                this.x = targetPos.x
+                this.y = targetPos.y
             }
             document.body.addEventListener("pointermove", onMove)
             this.dom.addEventListener("pointerup", e => {
