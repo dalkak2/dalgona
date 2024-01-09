@@ -26,14 +26,9 @@ export class Block extends Draggable {
         this.dom.appendChild(this.baseBlock)
         this.append(...this.lines.flat())
 
-        const self = this
         this.magnets.push({
-            get x() {
-                return self.x
-            },
-            get y() {
-                return self.y
-            },
+            x: 0,
+            y: 0,
             type: "a",
             accept: "a",
         })

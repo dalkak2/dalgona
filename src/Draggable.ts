@@ -1,6 +1,9 @@
 import { SVGElem } from "./SVGElem.ts"
 import { distance } from "./util.ts"
-import type { Coord } from "./util.ts"
+import {
+    Coord,
+    add,
+} from "./util.ts"
 
 type Magnet = Coord & {
     accept: string
@@ -41,7 +44,10 @@ export abstract class Draggable extends SVGElem {
                     ) {
                         return target.magnets.find(magnet1 => {
                             return this.magnets.find(magnet2 => {
-                                const d = distance(magnet1, magnet2)
+                                const d = distance(
+                                    add(target, magnet1),
+                                    add(now, magnet2),
+                                )
                                 return d < 20
                             })
                         })

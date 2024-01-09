@@ -45,3 +45,10 @@ export const distance = (a: Coord, b: Coord) => {
     const dy = a.y - b.y
     return Math.sqrt(dx**2 + dy**2)
 }
+
+export const add = (a: Coord, b: Coord) => {
+    return {
+        x: a.x + b.x,
+        y: a.y + b.y,
+    }
+}
