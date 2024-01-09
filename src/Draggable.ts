@@ -11,6 +11,13 @@ type Magnet = Coord & {
     type: string
 }
 
+type MagnetInfo = {
+    x: number | (() => number),
+    y: number | (() => number),
+    accept: string,
+    type: string,
+}
+
 export abstract class Draggable extends SVGElem {
     
     magnets: Magnet[] = []
@@ -21,6 +28,20 @@ export abstract class Draggable extends SVGElem {
     render() {
         super.render()
         this.makeDraggable()
+    }
+
+    addMagnets(...magnets: MagnetInfo[]) {
+        magnets.forEach(magnet => {
+            const result = {...magnet}
+            Object.entries(magnet).forEach(([k, v]) => {
+                if (typeof v == "function") {
+                    Object.defineProperty(result, k, {
+                        get: v,
+                    })
+                }
+            })
+            this.magnets.push(result as Magnet)
+        })
     }
 
     private makeDraggable() {
