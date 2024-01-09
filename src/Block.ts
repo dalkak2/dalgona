@@ -1,14 +1,12 @@
 import { renderer } from "./Renderer.ts"
 import { $, split } from "./util.ts"
 import { Input, Text } from "./inline/mod.ts"
-import { makeDraggable } from "./makeDraggable.ts"
-import { SVGElem } from "./SVGElem.ts"
-import { addSnap } from "./addSnap.ts"
+import { Draggable } from "./Draggable.ts"
 
 type InlineItem = Input | Text
 type Item = InlineItem | "statements"
 
-export class Block extends SVGElem {
+export class Block extends Draggable {
     lines
     baseBlock
     dom
@@ -27,8 +25,8 @@ export class Block extends SVGElem {
         })
         this.dom.appendChild(this.baseBlock)
         this.append(...this.lines.flat())
-        makeDraggable(this)
 
+        /*
         const self = this
         addSnap({
             get x() {
@@ -40,8 +38,10 @@ export class Block extends SVGElem {
             accept: "bottom",
             elem: this,
         })
+        */
     }
     render() {
+        super.render()
         let accX = renderer.notch.width - 5
         let accY = renderer.height / 2
         this.lines.forEach(items => {

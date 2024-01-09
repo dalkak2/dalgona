@@ -1,10 +1,9 @@
-import { SVGElem } from "../SVGElem.ts"
 import { $ } from "../util.ts"
 import { renderer } from "../Renderer.ts"
 import { Text } from "./Text.ts"
-import { makeDraggable } from "../makeDraggable.ts"
+import { Draggable } from "../Draggable.ts"
 
-export class InputBlock extends SVGElem {
+export class InputBlock extends Draggable {
     dom
     text
     baseBlock
@@ -22,9 +21,9 @@ export class InputBlock extends SVGElem {
         })
         this.dom.appendChild(this.baseBlock)
         this.append(this.text)
-        makeDraggable(this)
     }
     render() {
+        super.render()
         this.baseBlock.setAttribute(
             "d",
             renderer.drawInnerBlock(this.text.width),
