@@ -5,7 +5,6 @@ import type { Coord } from "./util.ts"
 type Magnet = Coord & {
     accept: string
     type: string
-    elem: Draggable
 }
 
 export abstract class Draggable extends SVGElem {
@@ -35,12 +34,20 @@ export abstract class Draggable extends SVGElem {
                     y: e.clientY - offset.y,
                 }
     
-                const snapTarget = this.root.children.find(snapTarget => {
-                    if (snapTarget instanceof Draggable) {
-                        const d = distance(snapTarget, now)
-                        return d < 20 && snapTarget != this
+                const snapTarget = this.root.children.find(target => {
+                    if (
+                        target instanceof Draggable
+                        && target != this
+                    ) {
+                        return target.magnets.find(magnet1 => {
+                            return this.magnets.find(magnet2 => {
+                                const d = distance(magnet1, magnet2)
+                                return d < 20
+                            })
+                        })
                     }
                 })
+                console.log(snapTarget)
                 if (snapTarget) {
                     this.x = snapTarget.x
                     this.y = snapTarget.y
