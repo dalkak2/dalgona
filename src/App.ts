@@ -11,16 +11,4 @@ export class App extends SVGElem {
             height: "100%",
         })
     }
-    addBlock(block: Block) {
-        this.append(block)
-        block.render()
-    }
-    addBlocks(...blocks: Block[]) {
-        let accY = 0
-        blocks.forEach(block => {
-            block.y = accY
-            this.addBlock(block)
-            accY += block.bodyHeight
-        })
-    }
 }
