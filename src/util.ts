@@ -5,6 +5,7 @@ type TagMap = {
     path: SVGPathElement
     g: SVGGElement
     text: SVGTextElement
+    rect: SVGRectElement
 }
 
 type FromTagName<T extends keyof TagMap> = TagMap[T]

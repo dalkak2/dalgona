@@ -27,6 +27,9 @@ export class Block extends Draggable {
         })
         this.dom = $("g", {
             transform: "translate(0 0)",
+            style: `
+                outline: solid 1px red;
+            `,
         })
         this.dom.appendChild(this.baseBlock)
         this.append(...items)

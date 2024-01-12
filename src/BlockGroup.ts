@@ -11,7 +11,10 @@ export class BlockGroup extends Draggable {
     constructor(...children: Block[]) {
         super()
         this.dom = $("g", {
-            transform: "translate(0 0)"
+            transform: "translate(0 0)",
+            style: `
+                outline: solid 2px blue;
+            `,
         })
         this.append(...children)
     }
